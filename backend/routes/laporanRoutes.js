@@ -6,6 +6,7 @@ const router = express.Router();
 const laporanController = require("../controllers/laporanController");
 
 const verifyToken = require("../middleware/authMiddleware");
+const checkRole = require("../middleware/roleMiddleware");
 const upload = require("../middleware/uploadMiddleware");
 
 router.post(
@@ -39,6 +40,13 @@ router.delete(
     "/:id",
     verifyToken,
     laporanController.deleteLaporan
+);
+
+router.patch(
+    "/:id/status",
+    verifyToken,
+    checkRole("admin"),
+    laporanController.updateStatus
 );
 
 module.exports = router;

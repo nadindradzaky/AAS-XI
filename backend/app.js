@@ -23,25 +23,7 @@ app.get("/", (req, res) => {
     res.send("Backend jalan cuy");
 });
 
-app.get("/profile", verifyToken, (req, res) => {
-    res.json({
-        message: "Berhasil akses profile",
-        user: req.user
-    });
-});
 
-app.get(
-    "/admin",
-    verifyToken,
-    checkRole("admin"),
-    (req, res) => {
-
-        res.json({
-            message: "Selamat datang admin"
-        });
-
-    }
-);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server running di port ${process.env.PORT || 3000}`);

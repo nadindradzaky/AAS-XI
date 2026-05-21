@@ -18,4 +18,4 @@ const checkRole = (...roles) => {
     };
 };
 
-module.exports = checkRole;("admin")
+module.exports = checkRole;

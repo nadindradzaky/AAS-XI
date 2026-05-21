@@ -4,7 +4,7 @@ const db = require("../config/db");
 
 exports.createLaporan = (req, res) => {
 
-    const { title, description, category_id } = req.body;   
+    const { title, description, category_id, location_name, latitude, longitude } = req.body;   
 
     const image = req.file ? req.file.filename : null;
 
@@ -12,13 +12,13 @@ exports.createLaporan = (req, res) => {
 
     const sql = `
         INSERT INTO laporan
-        (title, description, category_id, user_id)
-        VALUES (?, ?, ?, ?)
+        (title, description, category_id, user_id, image, location_name, latitude, longitude)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
         sql,
-        [title, description, category_id, user_id],
+        [title, description, category_id, user_id, image, location_name, latitude, longitude],
         
         (err, result) => {
 
@@ -177,4 +177,25 @@ exports.getLaporanById = async (req, res) => {
       });
 
    }
+};
+
+exports.updateStatus = (req, res) => {
+    const id = req.params.id;
+    const { status } = req.body;
+
+    const sql = `
+        UPDATE laporan
+        SET status = ?
+        WHERE id = ?
+    `;
+
+    db.query(sql, [status, id], (err, result) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        res.json({
+            message: "Status laporan berhasil diubah"
+        });
+    });
 };
